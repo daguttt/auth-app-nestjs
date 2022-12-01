@@ -1,17 +1,9 @@
 import { Module } from '@nestjs/common';
-import { ConfigModule } from '@nestjs/config';
-import appConfig from './config/app/app.config';
-
+import { AppConfigModule } from './config/app-config.module';
+import { TypeOrmConfigModule } from './config/typeorm/typeorm-config.module';
 import { UsersModule } from './users/users.module';
 
 @Module({
-  imports: [
-    ConfigModule.forRoot({
-      isGlobal: true,
-      envFilePath: ['.env', '.env.production'],
-      load: [appConfig],
-    }),
-    UsersModule,
-  ],
+  imports: [AppConfigModule, TypeOrmConfigModule, UsersModule],
 })
 export class AppModule {}
