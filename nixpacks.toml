@@ -1,0 +1,2 @@
+[start]
+cmd = 'pnpm start:prod'
