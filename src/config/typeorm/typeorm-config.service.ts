@@ -8,7 +8,7 @@ export class TypeOrmConfigService implements TypeOrmOptionsFactory {
   constructor(private readonly configService: ConfigService) {}
 
   createTypeOrmOptions(): TypeOrmModuleOptions {
-    const entitiesPath = join(__dirname, '../../**/entities/*.{js,ts}');
+    const entitiesPath = join(__dirname, '../../**/entities/*.entity.{js,ts}');
 
     const options: TypeOrmModuleOptions = {
       type: 'postgres',
