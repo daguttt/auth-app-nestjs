@@ -9,4 +9,5 @@ export default registerAs('database', () => ({
   password: env.DATABASE_PASSWORD,
   port: Number(env.DATABASE_PORT) || 5434,
   synchronize: env.DATABASE_SYNCHRONIZE === 'true',
+  logging: env.DATABASE_LOGGING === 'true',
 }));

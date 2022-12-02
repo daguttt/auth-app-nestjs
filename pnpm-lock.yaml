@@ -17,6 +17,7 @@ specifiers:
   '@typescript-eslint/parser': ^5.0.0
   class-transformer: 0.5.1
   class-validator: 0.13.2
+  dotenv: 16.0.3
   eslint: ^8.0.1
   eslint-config-prettier: ^8.3.0
   eslint-plugin-prettier: ^4.0.0
@@ -43,6 +44,7 @@ dependencies:
   '@nestjs/typeorm': 9.0.1_izmi35gqaoyigs7xe3dmeulnea
   class-transformer: 0.5.1
   class-validator: 0.13.2
+  dotenv: 16.0.3
   pg: 8.8.0
   reflect-metadata: 0.1.13
   rimraf: 3.0.2
@@ -2214,6 +2216,11 @@ packages:
 
   /dotenv/16.0.1:
     resolution: {integrity: sha512-1K6hR6wtk2FviQ4kEiSjFiH5rpzEVi8WW0x96aztHVMhEspNpc4DVOUTEHtEva5VThQ8IaBX1Pe4gSzpVVUsKQ==}
+    engines: {node: '>=12'}
+    dev: false
+
+  /dotenv/16.0.3:
+    resolution: {integrity: sha512-7GO6HghkA5fYG9TYnNxi14/7K9f5occMlp3zXAuSxn7CKCxt9xbNWG7yF8hTCSUchlfWSe3uLmlPfigevRItzQ==}
     engines: {node: '>=12'}
     dev: false
 
@@ -4971,7 +4978,7 @@ packages:
       cli-highlight: 2.1.11
       date-fns: 2.29.3
       debug: 4.3.4
-      dotenv: 16.0.1
+      dotenv: 16.0.3
       glob: 7.2.3
       js-yaml: 4.1.0
       mkdirp: 1.0.4
