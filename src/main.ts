@@ -1,6 +1,9 @@
-import { Logger, ValidationPipe } from '@nestjs/common';
-import { ConfigService } from '@nestjs/config';
 import { NestFactory } from '@nestjs/core';
+import { Logger, ValidationPipe } from '@nestjs/common';
+import { ConfigType } from '@nestjs/config';
+
+import appConfig from './config/app/app.config';
+
 import { AppModule } from './app.module';
 
 async function bootstrap() {
@@ -18,9 +21,9 @@ async function bootstrap() {
 
   const logger = new Logger('Main');
 
-  const configService = app.get(ConfigService);
+  const config: ConfigType<typeof appConfig> = app.get(appConfig.KEY);
 
-  const PORT = configService.get<number>('app.port');
+  const PORT = config.port;
   await app.listen(PORT, '0.0.0.0', () => {
     logger.log(`App running on port ${PORT}`);
   });

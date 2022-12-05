@@ -24,6 +24,6 @@ const dataSourceOptions: DataSourceOptions = {
   entities: [entitiesPath],
   migrations: [migrationsPath],
 };
-console.log(dataSourceOptions);
+
 const dataSource = new DataSource(dataSourceOptions);
 export default dataSource;
