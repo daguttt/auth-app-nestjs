@@ -15,7 +15,10 @@ export class UserEntity {
   })
   lastName: string;
 
-  @Column()
+  @Column('varchar', {
+    unique: true,
+    nullable: false,
+  })
   email: string;
 
   @Column('varchar', {
