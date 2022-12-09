@@ -1,7 +1,8 @@
 import { Injectable, Logger } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import { ErrorsService } from 'src/errors/errors.service';
 import { Repository } from 'typeorm';
+
+import { ErrorsService } from 'src/errors/errors.service';
 import { CreateUserDto } from './dto/create-user.dto';
 import { UserEntity } from './entities/user.entity';
 

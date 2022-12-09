@@ -21,9 +21,7 @@ export class UserEntity {
   })
   email: string;
 
-  @Column('varchar', {
-    length: 20,
-  })
+  @Column('varchar')
   password: string;
 
   @Column('smallint')
