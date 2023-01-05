@@ -42,6 +42,15 @@ export class AuthService {
     return this.getJwtPayload(user);
   }
 
+  async handleLoginWithGoogle(
+    userToHandle: CreateUserDto,
+  ): Promise<AuthPayload> {
+    const user = await this.usersService.findOne(userToHandle.email);
+    if (user) return await this.logIn(user);
+
+    return this.register(userToHandle);
+  }
+
   private getJwtPayload(user: UserEntity | AuthUser): AuthPayload {
     const payload: JwtPayload = {
       sub: user.id.toString(),
