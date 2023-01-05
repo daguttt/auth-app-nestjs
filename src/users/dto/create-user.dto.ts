@@ -8,10 +8,7 @@ import {
 
 export class CreateUserDto {
   @IsString()
-  name: string;
-
-  @IsOptional()
-  lastName: string;
+  fullname: string;
 
   @IsEmail()
   email: string;
@@ -19,7 +16,4 @@ export class CreateUserDto {
   @IsString()
   @Matches(/^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[a-zA-Z]).{8,}$/)
   password: string;
-
-  @IsNumber()
-  age: number;
 }
