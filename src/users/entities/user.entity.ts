@@ -23,7 +23,4 @@ export class UserEntity {
 
   @Column('varchar')
   password: string;
-
-  @Column('smallint')
-  age: number;
 }
