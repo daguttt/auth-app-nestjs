@@ -22,6 +22,7 @@
     "typeorm": "typeorm-ts-node-esm",
     "migration:generate": "npm run typeorm -- -d ./src/config/typeorm/typeorm-config.ts migration:generate ./src/database/migrations/RemoveConstraintUserPasswordLength",
     "migration:create": "npm run typeorm migration:create ./src/database/migrations/CustomMigration",
+    "migration:create": "npm run typeorm migration:create ./src/database/migrations/JoinNameAndLastNameColumnsIntoFullname",
     "migration:run": "npm run typeorm -- -d ./src/config/typeorm/typeorm-config.ts migration:run"
   },
   "dependencies": {

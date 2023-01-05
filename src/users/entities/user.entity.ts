@@ -6,14 +6,10 @@ export class UserEntity {
   id: number;
 
   @Column('varchar', {
-    length: 20,
-  })
-  name: string;
-
-  @Column('varchar', {
+    name: 'full_name',
     length: 60,
   })
-  lastName: string;
+  fullName: string;
 
   @Column('varchar', {
     unique: true,
