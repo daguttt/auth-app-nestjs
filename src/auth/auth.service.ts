@@ -25,11 +25,10 @@ export class AuthService {
     if (!user) return null;
 
     const areSamePasswords = await comparePasswords(pass, user.password);
-    if (areSamePasswords) {
-      const { password, ...userWithoutPassword } = user;
-      return userWithoutPassword;
-    }
-    return null;
+    if (!areSamePasswords) return null;
+
+    const { password, ...userWithoutPassword } = user;
+    return userWithoutPassword;
   }
 
   async logIn(user: AuthUser): Promise<AuthPayload> {
