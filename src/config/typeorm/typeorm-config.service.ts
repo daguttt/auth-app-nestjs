@@ -23,7 +23,7 @@ export class TypeOrmConfigService implements TypeOrmOptionsFactory {
       logging: this.dbConfig.logging,
       entities: [entitiesPath],
       migrations: [migrationsPath],
-      migrationsRun: true,
+      migrationsRun: this.dbConfig.migrationsRun,
     };
 
     return options;

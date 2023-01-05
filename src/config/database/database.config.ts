@@ -10,4 +10,5 @@ export default registerAs('database', () => ({
   port: Number(env.DATABASE_PORT) || 5434,
   synchronize: env.DATABASE_SYNCHRONIZE === 'true',
   logging: env.DATABASE_LOGGING === 'true',
+  migrationsRun: env.DATABASE_MIGRATIONS_RUN === 'true',
 }));
