@@ -36,7 +36,7 @@ export class GoogleStrategy extends PassportStrategy(Strategy, 'google') {
     });
     this.authService;
     const user = {
-      fullname: profile.displayName,
+      fullName: profile.displayName,
       email: profile.emails[0].value,
     };
     done(null, user);

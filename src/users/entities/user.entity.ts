@@ -19,4 +19,9 @@ export class UserEntity {
 
   @Column('varchar')
   password: string;
+
+  @Column('text', {
+    nullable: true,
+  })
+  photo: string;
 }
