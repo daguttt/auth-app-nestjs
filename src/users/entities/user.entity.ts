@@ -17,7 +17,9 @@ export class UserEntity {
   })
   email: string;
 
-  @Column('varchar')
+  @Column('varchar', {
+    nullable: true,
+  })
   password: string;
 
   @Column('text', {
