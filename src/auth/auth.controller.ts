@@ -3,6 +3,7 @@ import {
   Controller,
   Get,
   HttpStatus,
+  InternalServerErrorException,
   Post,
   Req,
   Res,
@@ -33,13 +34,12 @@ export class AuthController {
   @Get('login/federated/google')
   @UseGuards(AuthGuard('google'))
   loginGoogle(@Res() res: Response) {
-    return res.status(HttpStatus.OK).send();
+    throw new InternalServerErrorException();
   }
 
   @Get('oauth2/google/redirect')
   @UseGuards(AuthGuard('google'))
-  loginGoogleRedirect(@Req() req: { user: Express.User }) {
-    return req.user;
-    // return this.authService.handleLoginWithGoogle(req.user);
+  loginGoogleRedirect(@Req() req: { user: CreateUserDto }) {
+    return this.authService.handleLoginWithGoogle(req.user);
   }
 }

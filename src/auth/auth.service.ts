@@ -36,8 +36,11 @@ export class AuthService {
   }
 
   async register(registerCredentialsDto: CreateUserDto): Promise<AuthPayload> {
-    const { password } = registerCredentialsDto;
-    registerCredentialsDto.password = await encryptPassword(password);
+    // It comes with password when registering with Local Strategy
+    if (registerCredentialsDto.password) {
+      const { password } = registerCredentialsDto;
+      registerCredentialsDto.password = await encryptPassword(password);
+    }
     const user = await this.usersService.create(registerCredentialsDto);
     return this.getJwtPayload(user);
   }
