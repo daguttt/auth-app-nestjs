@@ -12,8 +12,6 @@ import { encryptPassword } from './utils/encrypt-password.util';
 
 @Injectable()
 export class AuthService {
-  private logger = new Logger('AuthService');
-
   constructor(
     private readonly usersService: UsersService,
     private readonly jwtService: JwtService,

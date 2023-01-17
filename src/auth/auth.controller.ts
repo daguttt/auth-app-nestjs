@@ -2,11 +2,9 @@ import {
   Body,
   Controller,
   Get,
-  HttpStatus,
   InternalServerErrorException,
   Post,
   Req,
-  Res,
   UseGuards,
 } from '@nestjs/common';
 import { CreateUserDto } from 'src/users/dto/create-user.dto';
@@ -15,7 +13,6 @@ import { LocalAuthGuard } from './guards/local-auth.guard';
 import { AuthUser } from './types/auth-user.type';
 import { AuthGuard } from '@nestjs/passport';
 import { AuthPayload } from './types/auth-payload.interface';
-import { Response } from 'express';
 
 @Controller('auth')
 export class AuthController {
@@ -33,7 +30,7 @@ export class AuthController {
 
   @Get('login/federated/google')
   @UseGuards(AuthGuard('google'))
-  loginGoogle(@Res() res: Response) {
+  loginGoogle() {
     throw new InternalServerErrorException();
   }
 
