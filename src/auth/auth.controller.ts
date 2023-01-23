@@ -2,41 +2,43 @@ import {
   Body,
   Controller,
   Get,
-  InternalServerErrorException,
   Post,
   Req,
+  Res,
   UseGuards,
 } from '@nestjs/common';
+
+import { Response } from 'express';
+
 import { CreateUserDto } from 'src/users/dto/create-user.dto';
-import { AuthService } from './auth.service';
+
 import { LocalAuthGuard } from './guards/local-auth.guard';
-import { AuthUser } from './types/auth-user.type';
-import { AuthGuard } from '@nestjs/passport';
-import { AuthPayload } from './types/auth-payload.interface';
+import { GoogleAuthGuard } from './guards/google-auth.guard';
+import { GoogleUser } from './types/google-user.interface';
+import { AuthService } from './auth.service';
 
 @Controller('auth')
 export class AuthController {
   constructor(private readonly authService: AuthService) {}
   @Post('login')
   @UseGuards(LocalAuthGuard)
-  logIn(@Req() req: { user: AuthUser }): Promise<AuthPayload> {
-    return this.authService.logIn(req.user);
+  logIn() {
+    return { ok: true };
   }
 
   @Post('register')
-  register(@Body() registerCredetialsDto: CreateUserDto): Promise<AuthPayload> {
+  register(@Body() registerCredetialsDto: CreateUserDto) {
     return this.authService.register(registerCredetialsDto);
   }
 
   @Get('login/federated/google')
-  @UseGuards(AuthGuard('google'))
-  loginGoogle() {
-    throw new InternalServerErrorException();
-  }
+  @UseGuards(GoogleAuthGuard)
+  loginGoogle() {}
 
   @Get('oauth2/google/redirect')
-  @UseGuards(AuthGuard('google'))
-  loginGoogleRedirect(@Req() req: { user: CreateUserDto }) {
-    return this.authService.handleLoginWithGoogle(req.user);
+  @UseGuards(GoogleAuthGuard)
+  loginGoogleRedirect(@Req() req: { user: GoogleUser }, @Res() res: Response) {
+    this.authService.handleLoginWithGoogle(req.user);
+    return res.redirect('/users');
   }
 }

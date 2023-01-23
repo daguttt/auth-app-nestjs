@@ -1,13 +1,13 @@
-import { ExecutionContext, Logger } from '@nestjs/common';
+import { ExecutionContext, Injectable } from '@nestjs/common';
 import { AuthGuard } from '@nestjs/passport';
 
-export class LocalAuthGuard extends AuthGuard('local') {
-  private _logger: Logger = new Logger(LocalAuthGuard.name);
-
+@Injectable()
+export class GoogleAuthGuard extends AuthGuard('google') {
   async canActivate(context: ExecutionContext) {
+    // It needs to be in a variable in order to execute the strategy FIRST than the .logIn() method
     const canContinue = (await super.canActivate(context)) as boolean;
     const request = context.switchToHttp().getRequest();
-    this._logger.debug({ attachedUser: request.user });
+    // It handles all stuff about session
     await super.logIn(request);
     return canContinue;
   }
