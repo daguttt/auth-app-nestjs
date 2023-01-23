@@ -5,6 +5,12 @@ import { ConfigType } from '@nestjs/config';
 import * as session from 'express-session';
 import * as passport from 'passport';
 
+import * as connectRedis from 'connect-redis';
+import { Redis } from 'ioredis';
+
+const RedisStore = connectRedis(session);
+const redisClient = new Redis();
+
 import appConfig from './config/app/app.config';
 
 import { AppModule } from './app.module';
@@ -13,7 +19,10 @@ import authConfig from './config/auth/auth.config';
 async function bootstrap() {
   const logger = new Logger('Main');
   const app = await NestFactory.create(AppModule);
-  app.enableCors();
+  app.enableCors({
+    origin: 'http://localhost:4200',
+    credentials: true,
+  });
 
   /* -***************- */
   // Validation
@@ -29,12 +38,14 @@ async function bootstrap() {
   const sessionConfig: ConfigType<typeof authConfig> = app.get(authConfig.KEY);
   app.use(
     session({
+      // @ts-ignore // typing 🙄
+      store: new RedisStore({ client: redisClient }),
       name: 'session_id',
       secret: sessionConfig.session.secret,
       resave: false,
       saveUninitialized: false,
       cookie: {
-        maxAge: 10 * 1000,
+        maxAge: 2 * 60 * 1000,
       },
     }),
   );

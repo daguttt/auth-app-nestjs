@@ -18,6 +18,7 @@ export class UsersController {
   }
 
   @Get('profile')
+  @UseGuards(SessionGuard)
   getProfile(@Req() req: { user: UserEntity }) {
     return req.user;
   }
