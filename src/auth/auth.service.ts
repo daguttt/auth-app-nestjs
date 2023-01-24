@@ -40,9 +40,9 @@ export class AuthService {
     const user: UserEntity = await this.usersService.findOne(
       userToHandle.email,
     );
-    // TODO: Update user if already exists
-    if (user) return;
 
-    this.register(userToHandle);
+    if (!user) return await this.register(userToHandle);
+
+    await this.usersService.updateUser(userToHandle, user);
   }
 }

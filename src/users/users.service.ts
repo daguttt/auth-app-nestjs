@@ -48,4 +48,13 @@ export class UsersService {
       },
     });
   }
+
+  async updateUser(newUserData: GoogleUser, currentUser: UserEntity) {
+    const userToBeUpdated = {
+      ...currentUser,
+      ...newUserData,
+    };
+    const userUpdated = await this.usersRepository.preload(userToBeUpdated);
+    return await this.usersRepository.save(userUpdated);
+  }
 }
