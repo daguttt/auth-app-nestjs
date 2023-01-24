@@ -54,7 +54,6 @@ export class UsersService {
       ...currentUser,
       ...newUserData,
     };
-    const userUpdated = await this.usersRepository.preload(userToBeUpdated);
-    return await this.usersRepository.save(userUpdated);
+    return await this.usersRepository.save(userToBeUpdated);
   }
 }
