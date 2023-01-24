@@ -2,6 +2,7 @@ import {
   Body,
   Controller,
   Get,
+  Inject,
   Post,
   Req,
   Res,
@@ -16,10 +17,16 @@ import { LocalAuthGuard } from './guards/local-auth.guard';
 import { GoogleAuthGuard } from './guards/google-auth.guard';
 import { GoogleUser } from './types/google-user.interface';
 import { AuthService } from './auth.service';
+import { ConfigType } from '@nestjs/config';
+import frontendConfig from 'src/config/frontend/frontend.config';
 
 @Controller('auth')
 export class AuthController {
-  constructor(private readonly authService: AuthService) {}
+  constructor(
+    private readonly authService: AuthService,
+    @Inject(frontendConfig.KEY)
+    private readonly config: ConfigType<typeof frontendConfig>,
+  ) {}
   @Post('login')
   @UseGuards(LocalAuthGuard)
   logIn() {
@@ -39,6 +46,6 @@ export class AuthController {
   @UseGuards(GoogleAuthGuard)
   loginGoogleRedirect(@Req() req: { user: GoogleUser }, @Res() res: Response) {
     this.authService.handleLoginWithGoogle(req.user);
-    return res.redirect('/users');
+    return res.redirect(this.config.redirectUrl);
   }
 }
