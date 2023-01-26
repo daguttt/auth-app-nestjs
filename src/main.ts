@@ -45,6 +45,7 @@ async function bootstrap() {
       secret: sessionConfig.session.secret,
       resave: false,
       saveUninitialized: false,
+      rolling: true,
       cookie: {
         maxAge: 2 * 60 * 1000,
       },
