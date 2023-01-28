@@ -43,6 +43,12 @@ export class AuthController {
   @UseGuards(GoogleAuthGuard)
   loginGoogle() {}
 
+  @Get('user')
+  @UseGuards(SessionGuard)
+  getProfile(@Req() req: { user: UserEntity }) {
+    return req.user;
+  }
+
   @Get('oauth2/google/redirect')
   @UseGuards(GoogleAuthGuard)
   loginGoogleRedirect(@Req() req: { user: GoogleUser }, @Res() res: Response) {

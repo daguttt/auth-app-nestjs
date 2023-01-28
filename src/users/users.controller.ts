@@ -30,7 +30,9 @@ export class UsersController {
   @Get('profile')
   @UseGuards(SessionGuard)
   getProfile(@Req() req: { user: UserEntity }) {
-    return req.user;
+    return this.usersService.findOneWithPassword(req.user.email);
+  }
+
   @Patch('change-password')
   @UseGuards(SessionGuard)
   @HttpCode(204)
