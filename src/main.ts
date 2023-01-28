@@ -45,7 +45,7 @@ async function bootstrap() {
       secret: sessionConfig.session.secret,
       resave: false,
       saveUninitialized: false,
-      rolling: true,
+      rolling: true, // -> https://github.com/expressjs/session#rolling
       cookie: {
         maxAge: 2 * 60 * 1000,
       },
