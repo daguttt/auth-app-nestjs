@@ -7,6 +7,7 @@ import { AuthModule } from 'src/auth/auth.module';
 import { UserEntity } from './entities/user.entity';
 import { UsersService } from './users.service';
 import { UsersController } from './users.controller';
+import { ArePasswordsEqualPipe } from './pipes/are-passwords-equal/are-passwords-equal.pipe';
 
 @Module({
   imports: [
@@ -14,7 +15,7 @@ import { UsersController } from './users.controller';
     ErrorsModule,
     forwardRef(() => AuthModule),
   ],
-  providers: [UsersService],
+  providers: [UsersService, ArePasswordsEqualPipe],
   controllers: [UsersController],
   exports: [UsersService],
 })

@@ -28,3 +28,5 @@ export class UserEntity {
   })
   photo: string;
 }
+
+export type UserEntityLike = Partial<UserEntity>;

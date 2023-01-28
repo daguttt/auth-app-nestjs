@@ -7,7 +7,9 @@ import { ErrorsService } from 'src/errors/errors.service';
 import { GoogleUser } from 'src/auth/types/google-user.interface';
 
 import { CreateUserDto } from './dto/create-user.dto';
-import { UserEntity } from './entities/user.entity';
+import { UserEntity, UserEntityLike } from './entities/user.entity';
+import { CreatePasswordDto } from './dto/create-password.dto';
+import { encryptPassword } from 'src/auth/utils/encrypt-password.util';
 
 @Injectable()
 export class UsersService {
@@ -49,11 +51,22 @@ export class UsersService {
     });
   }
 
-  async updateUser(newUserData: GoogleUser, currentUser: UserEntity) {
+  async updateUser(newUserData: UserEntityLike, currentUser: UserEntity) {
     const userToBeUpdated = {
       ...currentUser,
       ...newUserData,
     };
     return await this.usersRepository.save(userToBeUpdated);
+  }
+
+  async setPassword(createPasswordDto: CreatePasswordDto, user: UserEntity) {
+    const encryptedPassword: string = await encryptPassword(
+      createPasswordDto.newPassword,
+    );
+    createPasswordDto.newPassword = encryptedPassword;
+    return await this.updateUser(
+      { password: createPasswordDto.newPassword },
+      user,
+    );
   }
 }

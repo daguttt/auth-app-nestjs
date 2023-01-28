@@ -27,6 +27,7 @@ export class AuthController {
     @Inject(frontendConfig.KEY)
     private readonly config: ConfigType<typeof frontendConfig>,
   ) {}
+
   @Post('login')
   @UseGuards(LocalAuthGuard)
   logIn() {
