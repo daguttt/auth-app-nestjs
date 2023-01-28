@@ -1,4 +1,4 @@
-import { Injectable } from '@nestjs/common';
+import { BadRequestException, Injectable } from '@nestjs/common';
 import { PassportStrategy } from '@nestjs/passport';
 
 import { Strategy } from 'passport-local';
@@ -12,6 +12,9 @@ export class LocalStrategy extends PassportStrategy(Strategy) {
     super({ usernameField: 'email' });
   }
   async validate(email: string, password: string): Promise<AuthUser | null> {
-    return await this.authService.validateUser(email, password);
+    const authUser = await this.authService.validateUser(email, password);
+    if (!authUser)
+      throw new BadRequestException('Email or password invalid. Try again');
+    return authUser;
   }
 }
