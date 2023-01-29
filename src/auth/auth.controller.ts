@@ -35,10 +35,9 @@ export class AuthController {
   ) {}
 
   @Post('login')
+  @HttpCode(200)
   @UseGuards(LocalAuthGuard)
-  logIn() {
-    return { ok: true };
-  }
+  logIn() {}
 
   @Post('register')
   register(@Body() registerCredetialsDto: CreateUserDto) {
