@@ -1,4 +1,6 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, Logger } from '@nestjs/common';
+
+import type { Session as ExpressSession } from 'express-session';
 
 import { CreateUserDto } from 'src/users/dto/create-user.dto';
 import { UserEntity } from 'src/users/entities/user.entity';
@@ -11,6 +13,8 @@ import { AuthUser } from './types/auth-user.type';
 
 @Injectable()
 export class AuthService {
+  private _logger: Logger = new Logger(AuthService.name);
+
   constructor(private readonly usersService: UsersService) {}
 
   /**
@@ -44,5 +48,12 @@ export class AuthService {
     if (!user) return await this.register(userToHandle);
 
     await this.usersService.updateUser(userToHandle, user);
+  }
+
+  async logOut(session: ExpressSession): Promise<void> {
+    session.destroy(() => {
+      this._logger.log('User logged out');
+      return;
+    });
   }
 }

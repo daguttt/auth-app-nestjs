@@ -1,16 +1,20 @@
 import {
   Body,
   Controller,
+  Delete,
   Get,
+  HttpCode,
   Inject,
   Post,
   Req,
   Res,
+  Session,
   UseGuards,
 } from '@nestjs/common';
 import { ConfigType } from '@nestjs/config';
 
 import { Response } from 'express';
+import type { Session as ExpressSession } from 'express-session';
 
 import { CreateUserDto } from 'src/users/dto/create-user.dto';
 import frontendConfig from 'src/config/frontend/frontend.config';
@@ -20,8 +24,7 @@ import { LocalAuthGuard } from './guards/local-auth.guard';
 import { GoogleAuthGuard } from './guards/google-auth.guard';
 import { GoogleUser } from './types/google-user.interface';
 import { AuthService } from './auth.service';
-import { ConfigType } from '@nestjs/config';
-import frontendConfig from 'src/config/frontend/frontend.config';
+import { SessionGuard } from './guards/session.guard';
 
 @Controller('auth')
 export class AuthController {
@@ -57,5 +60,12 @@ export class AuthController {
   loginGoogleRedirect(@Req() req: { user: GoogleUser }, @Res() res: Response) {
     this.authService.handleLoginWithGoogle(req.user);
     return res.redirect(this.config.redirectUrl);
+  }
+
+  @Delete('logout')
+  @UseGuards(SessionGuard)
+  @HttpCode(204)
+  logOut(@Session() session: ExpressSession) {
+    return this.authService.logOut(session);
   }
 }
