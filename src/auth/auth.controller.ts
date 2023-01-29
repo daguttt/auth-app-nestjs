@@ -8,10 +8,13 @@ import {
   Res,
   UseGuards,
 } from '@nestjs/common';
+import { ConfigType } from '@nestjs/config';
 
 import { Response } from 'express';
 
 import { CreateUserDto } from 'src/users/dto/create-user.dto';
+import frontendConfig from 'src/config/frontend/frontend.config';
+import { UserEntity } from 'src/users/entities/user.entity';
 
 import { LocalAuthGuard } from './guards/local-auth.guard';
 import { GoogleAuthGuard } from './guards/google-auth.guard';
