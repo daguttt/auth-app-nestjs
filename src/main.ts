@@ -54,8 +54,8 @@ async function bootstrap() {
   app.use(passport.session());
   /* -***************- */
 
-  const config: ConfigType<typeof appConfig> = app.get(appConfig.KEY);
-  const PORT = config.port;
+  const appEnv: ConfigType<typeof appConfig> = app.get(appConfig.KEY);
+  const PORT = appEnv.port;
   await app.listen(PORT, '0.0.0.0', () => {
     logger.log(`App running on port ${PORT}`);
   });
