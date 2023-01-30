@@ -17,7 +17,7 @@ import { Response } from 'express';
 import type { Session as ExpressSession } from 'express-session';
 
 import { CreateUserDto } from 'src/users/dto/create-user.dto';
-import frontendConfig from 'src/config/frontend/frontend.config';
+import frontendConfig from 'src/config/frontend.config';
 import { UserEntity } from 'src/users/entities/user.entity';
 
 import { LocalAuthGuard } from './guards/local-auth.guard';

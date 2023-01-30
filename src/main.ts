@@ -11,10 +11,9 @@ import { Redis } from 'ioredis';
 const RedisStore = connectRedis(session);
 const redisClient = new Redis();
 
-import appConfig from './config/app/app.config';
-
+import appConfig from './config/app.config';
+import authConfig from './config/auth.config';
 import { AppModule } from './app.module';
-import authConfig from './config/auth/auth.config';
 
 async function bootstrap() {
   const logger = new Logger('Main');

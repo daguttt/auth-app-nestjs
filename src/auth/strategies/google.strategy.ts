@@ -4,7 +4,7 @@ import { PassportStrategy } from '@nestjs/passport';
 
 import { Profile, Strategy, VerifyCallback } from 'passport-google-oauth20';
 
-import authConfig from 'src/config/auth/auth.config';
+import authConfig from 'src/config/auth.config';
 
 import { GoogleUser } from '../types/google-user.interface';
 import { AuthService } from '../auth.service';
