@@ -5,14 +5,13 @@ import { ConfigType } from '@nestjs/config';
 import * as session from 'express-session';
 import * as passport from 'passport';
 
-import * as connectRedis from 'connect-redis';
-import { Redis } from 'ioredis';
-
-const RedisStore = connectRedis(session);
-const redisClient = new Redis();
+import * as pgSession from 'connect-pg-simple';
+import { Pool } from 'pg';
 
 import appConfig from './config/app.config';
-import authConfig from './config/auth.config';
+import sessionConfig from './config/session.config';
+import databaseConfig from './config/database.config';
+
 import { AppModule } from './app.module';
 
 async function bootstrap() {
@@ -35,13 +34,32 @@ async function bootstrap() {
 
   /* -***************- */
   /* Session */
-  const sessionConfig: ConfigType<typeof authConfig> = app.get(authConfig.KEY);
+  const sessionEnv: ConfigType<typeof sessionConfig> = app.get(
+    sessionConfig.KEY,
+  );
+  const databaseEnv: ConfigType<typeof databaseConfig> = app.get(
+    databaseConfig.KEY,
+  );
+  const dbPoolForSessions = new Pool({
+    host: databaseEnv.host,
+    port: databaseEnv.port,
+    user: databaseEnv.username,
+    password: databaseEnv.password,
+    database: databaseEnv.databaseName,
+    max: sessionEnv.maxConnectionPooling,
+  });
+  const PGStore = pgSession(session);
+
   app.use(
     session({
       // @ts-ignore // typing 🙄
-      store: new RedisStore({ client: redisClient }),
+      store: new PGStore({
+        pool: dbPoolForSessions,
+        createTableIfMissing: true,
+        ttl: 2 * 60 * 1000,
+      }),
       name: 'session_id',
-      secret: sessionConfig.session.secret,
+      secret: sessionEnv.secret,
       resave: false,
       saveUninitialized: false,
       rolling: true, // -> https://github.com/expressjs/session#rolling

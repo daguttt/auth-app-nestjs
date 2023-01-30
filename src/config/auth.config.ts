@@ -8,7 +8,4 @@ export default registerAs('auth', () => ({
     clientSecret: env.GOOGLE_CLIENT_SECRET,
     callbackURL: env.GOOGLE_REDIRECT_URI,
   },
-  session: {
-    secret: env.SESSION_SECRET,
-  },
 }));
