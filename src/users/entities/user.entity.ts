@@ -23,7 +23,7 @@ export class UserEntity {
   })
   password: string;
 
-  @Column('text', {
+  @Column('varchar', {
     nullable: true,
   })
   photo: string;

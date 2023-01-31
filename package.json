@@ -21,7 +21,7 @@
     "test:e2e": "jest --config ./test/jest-e2e.json",
     "typeorm": "typeorm-ts-node-esm",
     "migration:generate": "npm run typeorm -- -d ./src/config/typeorm/typeorm-config.ts migration:generate ./src/database/migrations/AddNullableConstraintToPasswordColumn",
-    "migration:create": "npm run typeorm migration:create ./src/database/migrations/DropTableUsers",
+    "migration:create": "npm run typeorm migration:create ./src/database/migrations/RecreateUsersTable",
     "migration:run": "npm run typeorm -- -d ./src/config/typeorm/typeorm-config.ts migration:run"
   },
   "dependencies": {
