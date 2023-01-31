@@ -9,7 +9,7 @@ export class RecreateUsersTable1675202973879 implements MigrationInterface {
                 full_name VARCHAR(60),
                 email VARCHAR(255) UNIQUE NOT NULL,
                 password VARCHAR,
-                photo VARCHAR,
+                photo VARCHAR
             );
         `,
     );
