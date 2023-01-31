@@ -65,6 +65,7 @@ async function bootstrap() {
       rolling: true, // -> https://github.com/expressjs/session#rolling
       cookie: {
         maxAge: 2 * 60 * 1000,
+        secure: sessionEnv.secureCookie,
       },
     }),
   );
