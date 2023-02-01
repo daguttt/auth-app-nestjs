@@ -1,6 +1,7 @@
 import { Injectable, Logger } from '@nestjs/common';
 
 import type { Session as ExpressSession } from 'express-session';
+import { Request } from 'express';
 
 import { CreateUserDto } from 'src/users/dto/create-user.dto';
 import { UserEntity } from 'src/users/entities/user.entity';
@@ -9,13 +10,17 @@ import { UsersService } from 'src/users/users.service';
 import { comparePasswords } from './utils/compare-password.util';
 import { encryptPassword } from './utils/encrypt-password.util';
 import { GoogleUser } from './types/google-user.interface';
-import { AuthUser } from './types/auth-user.type';
+import { AuthUser, UserWithoutPassword } from './types/auth-user.type';
+import { LocalAuthGuard } from './guards/local-auth.guard';
 
 @Injectable()
 export class AuthService {
   private _logger: Logger = new Logger(AuthService.name);
 
-  constructor(private readonly usersService: UsersService) {}
+  constructor(
+    private readonly usersService: UsersService,
+    private readonly localAuthGuard: LocalAuthGuard,
+  ) {}
 
   /**
    * Validate user for the LocalStrategy
@@ -31,13 +36,28 @@ export class AuthService {
     return userWithoutPassword;
   }
 
-  async register(registerCredentialsDto: CreateUserDto | GoogleUser) {
+  /**
+   * Register user and initialize its session
+   * @param registerCredentialsDto
+   * @param request Necessary for initializing user session
+   */
+  async register(
+    registerCredentialsDto: CreateUserDto | GoogleUser,
+    request?: Request,
+  ): Promise<void> {
     // It comes with password when registering with Local Strategy
     if (registerCredentialsDto.password) {
       const { password } = registerCredentialsDto;
       registerCredentialsDto.password = await encryptPassword(password);
     }
-    await this.usersService.create(registerCredentialsDto);
+    const { password, ...registeredUser } = await this.usersService.create(
+      registerCredentialsDto,
+    );
+    // Initialize user in session
+    if (request) {
+      request.user = registeredUser as UserWithoutPassword;
+      await this.localAuthGuard.logIn(request);
+    }
   }
 
   async handleLoginWithGoogle(userToHandle: GoogleUser) {

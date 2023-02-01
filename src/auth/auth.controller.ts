@@ -13,7 +13,7 @@ import {
 } from '@nestjs/common';
 import { ConfigType } from '@nestjs/config';
 
-import { Response } from 'express';
+import { Request, Response } from 'express';
 import type { Session as ExpressSession } from 'express-session';
 
 import { CreateUserDto } from 'src/users/dto/create-user.dto';
@@ -40,8 +40,8 @@ export class AuthController {
   logIn() {}
 
   @Post('register')
-  register(@Body() registerCredetialsDto: CreateUserDto) {
-    return this.authService.register(registerCredetialsDto);
+  register(@Body() registerCredetialsDto: CreateUserDto, @Req() req: Request) {
+    return this.authService.register(registerCredetialsDto, req);
   }
 
   @Get('login/federated/google')

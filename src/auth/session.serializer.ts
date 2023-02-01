@@ -2,6 +2,7 @@ import { Injectable, Logger } from '@nestjs/common';
 import { PassportSerializer } from '@nestjs/passport';
 
 import { UsersService } from 'src/users/users.service';
+import { UserWithoutPassword } from './types/auth-user.type';
 
 @Injectable()
 export class SessionSerializer extends PassportSerializer {
@@ -9,7 +10,7 @@ export class SessionSerializer extends PassportSerializer {
   constructor(private readonly usersService: UsersService) {
     super();
   }
-  serializeUser(user: any, done: Function) {
+  serializeUser(user: UserWithoutPassword, done: Function) {
     this._logger.debug('Serializing User');
     this._logger.debug({ user });
     done(null, user.email);

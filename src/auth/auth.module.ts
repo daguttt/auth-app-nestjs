@@ -10,6 +10,7 @@ import { GoogleStrategy } from './strategies/google.strategy';
 import { SessionSerializer } from './session.serializer';
 import { AuthController } from './auth.controller';
 import { AuthService } from './auth.service';
+import { LocalAuthGuard } from './guards/local-auth.guard';
 
 @Module({
   imports: [
@@ -17,7 +18,13 @@ import { AuthService } from './auth.service';
     TypeOrmModule.forFeature([UserEntity]),
     PassportModule.register({ session: true }),
   ],
-  providers: [SessionSerializer, AuthService, LocalStrategy, GoogleStrategy],
+  providers: [
+    SessionSerializer,
+    AuthService,
+    LocalStrategy,
+    GoogleStrategy,
+    LocalAuthGuard,
+  ],
   controllers: [AuthController],
 })
 export class AuthModule {}
