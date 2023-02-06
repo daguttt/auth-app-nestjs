@@ -66,7 +66,7 @@ async function bootstrap() {
       cookie: {
         maxAge: 2 * 60 * 1000,
         secure: sessionEnv.secureCookie,
-        sameSite: 'none',
+        sameSite: sessionEnv.sameSiteCookie,
       },
     }),
   );
