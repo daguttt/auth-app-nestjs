@@ -17,9 +17,13 @@ import { AppModule } from './app.module';
 async function bootstrap() {
   const logger = new Logger('Main');
   const app = await NestFactory.create(AppModule);
+  const appEnv: ConfigType<typeof appConfig> = app.get(appConfig.KEY);
+
+  logger.debug({ allowedDomains: appEnv.cors.allowedDomains });
+
   app.enableCors({
     // TODO Set an env variable for this in prod
-    origin: ['http://localhost:4200', 'http://localhost:58159'],
+    origin: appEnv.cors.allowedDomains,
     credentials: true,
   });
 
@@ -74,7 +78,6 @@ async function bootstrap() {
   app.use(passport.session());
   /* -***************- */
 
-  const appEnv: ConfigType<typeof appConfig> = app.get(appConfig.KEY);
   const PORT = appEnv.port;
   await app.listen(PORT, '0.0.0.0', () => {
     logger.log(`App running on port ${PORT}`);
