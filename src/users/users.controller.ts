@@ -48,9 +48,4 @@ export class UsersController {
     this.usersService.setPassword(createPasswordDto, user);
     return;
   }
-
-  @Get('test')
-  async getUserWithoutPass(@Query('email') email: string) {
-    return await this.usersService.findOneNew(email);
-  }
 }
