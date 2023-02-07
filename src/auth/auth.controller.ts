@@ -25,6 +25,8 @@ import { GoogleAuthGuard } from './guards/google-auth.guard';
 import { GoogleUser } from './types/google-user.interface';
 import { AuthService } from './auth.service';
 import { SessionGuard } from './guards/session.guard';
+import { User } from './decorators/user.decorator';
+import { UserWithoutPassword } from './types/auth-user.type';
 
 @Controller('auth')
 export class AuthController {
@@ -40,7 +42,10 @@ export class AuthController {
   logIn() {}
 
   @Post('register')
-  register(@Body() registerCredetialsDto: CreateUserDto, @Req() req: Request) {
+  register(
+    @Body() registerCredetialsDto: CreateUserDto,
+    @Req() req: Request,
+  ): Promise<void> {
     return this.authService.register(registerCredetialsDto, req);
   }
 
@@ -50,21 +55,24 @@ export class AuthController {
 
   @Get('user')
   @UseGuards(SessionGuard)
-  getProfile(@Req() req: { user: UserEntity }) {
-    return req.user;
+  getProfile(@User() user: UserWithoutPassword): UserWithoutPassword {
+    return user;
   }
 
   @Get('oauth2/google/redirect')
   @UseGuards(GoogleAuthGuard)
-  loginGoogleRedirect(@Req() req: { user: GoogleUser }, @Res() res: Response) {
-    this.authService.handleLoginWithGoogle(req.user);
+  loginGoogleRedirect(@User() user: GoogleUser, @Res() res: Response): void {
+    this.authService.handleLoginWithGoogle(user);
     return res.redirect(this.config.redirectUrl);
   }
 
   @Delete('logout')
   @UseGuards(SessionGuard)
   @HttpCode(204)
-  logOut(@Session() session: ExpressSession) {
-    return this.authService.logOut(session);
+  logOut(
+    @Session() session: ExpressSession,
+    @User('fullName') userFullName: string,
+  ): Promise<void> {
+    return this.authService.logOut(session, userFullName);
   }
 }
