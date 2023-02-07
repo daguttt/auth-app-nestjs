@@ -1,8 +1,8 @@
 {
-  "name": "users-nestjs",
+  "name": "auth-app-nestjs",
   "version": "0.0.1",
-  "description": "",
-  "author": "",
+  "description": "Code base to implement auth in other projects",
+  "author": "daguttt",
   "private": true,
   "license": "UNLICENSED",
   "scripts": {
