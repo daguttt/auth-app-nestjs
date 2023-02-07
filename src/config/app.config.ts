@@ -1,8 +1,11 @@
 import { registerAs } from '@nestjs/config';
 
+const { env } = process;
+
 export default registerAs('app', () => ({
-  port: process.env.PORT || 3005,
+  port: env.PORT || 3005,
+  trustProxy: env.TRUST_PROXY === 'true',
   cors: {
-    allowedDomains: process.env.CORS_ALLOWED_DOMAINS.split(','),
+    allowedDomains: env.CORS_ALLOWED_DOMAINS.split(','),
   },
 }));

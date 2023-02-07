@@ -13,10 +13,11 @@ import sessionConfig from './config/session.config';
 import databaseConfig from './config/database.config';
 
 import { AppModule } from './app.module';
+import { NestExpressApplication } from '@nestjs/platform-express';
 
 async function bootstrap() {
   const logger = new Logger('Main');
-  const app = await NestFactory.create(AppModule);
+  const app = await NestFactory.create<NestExpressApplication>(AppModule);
   const appEnv: ConfigType<typeof appConfig> = app.get(appConfig.KEY);
 
   logger.debug({ allowedDomains: appEnv.cors.allowedDomains });
@@ -54,6 +55,7 @@ async function bootstrap() {
   });
   const PGStore = pgSession(session);
 
+  app.set('trust proxy', appEnv.trustProxy);
   app.use(
     session({
       // @ts-ignore // typing 🙄
