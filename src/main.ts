@@ -20,10 +20,7 @@ async function bootstrap() {
   const app = await NestFactory.create<NestExpressApplication>(AppModule);
   const appEnv: ConfigType<typeof appConfig> = app.get(appConfig.KEY);
 
-  logger.debug({ allowedDomains: appEnv.cors.allowedDomains });
-
   app.enableCors({
-    // TODO Set an env variable for this in prod
     origin: appEnv.cors.allowedDomains,
     credentials: true,
   });
@@ -55,10 +52,10 @@ async function bootstrap() {
   });
   const PGStore = pgSession(session);
 
-  app.set('trust proxy', appEnv.trustProxy);
+  app.set('trust proxy', appEnv.trustProxy); // Works with secure cookie
   app.use(
     session({
-      // @ts-ignore // typing 🙄
+      // @ts-ignore // Stores use to have different interfaces
       store: new PGStore({
         pool: dbPoolForSessions,
         createTableIfMissing: true,
