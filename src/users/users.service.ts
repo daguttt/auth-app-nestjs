@@ -10,6 +10,7 @@ import { CreateUserDto } from './dto/create-user.dto';
 import { UserEntity, UserEntityLike } from './entities/user.entity';
 import { CreatePasswordDto } from './dto/create-password.dto';
 import { encryptPassword } from 'src/auth/utils/encrypt-password.util';
+import { UserWithoutPassword } from 'src/auth/types/auth-user.type';
 
 @Injectable()
 export class UsersService {
@@ -34,8 +35,10 @@ export class UsersService {
     return await this.usersRepository.find();
   }
 
-  async findOne(email: string): Promise<UserEntity> {
-    return await this.usersRepository.findOneBy({ email });
+  async findOne(email: string) {
+    return (await this.usersRepository.findOneBy({
+      email,
+    })) as UserWithoutPassword;
   }
 
   async findOneWithPassword(email: string): Promise<UserEntity> {
@@ -51,7 +54,10 @@ export class UsersService {
     });
   }
 
-  async updateUser(newUserData: UserEntityLike, currentUser: UserEntity) {
+  async updateUser(
+    newUserData: UserEntityLike,
+    currentUser: UserWithoutPassword,
+  ) {
     const userToBeUpdated = {
       ...currentUser,
       ...newUserData,
@@ -59,7 +65,10 @@ export class UsersService {
     return await this.usersRepository.save(userToBeUpdated);
   }
 
-  async setPassword(createPasswordDto: CreatePasswordDto, user: UserEntity) {
+  async setPassword(
+    createPasswordDto: CreatePasswordDto,
+    user: UserWithoutPassword,
+  ) {
     const encryptedPassword: string = await encryptPassword(
       createPasswordDto.newPassword,
     );

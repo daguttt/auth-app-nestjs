@@ -61,7 +61,7 @@ export class AuthService {
   }
 
   async handleLoginWithGoogle(userToHandle: GoogleUser) {
-    const user: UserEntity = await this.usersService.findOne(
+    const user: UserWithoutPassword = await this.usersService.findOne(
       userToHandle.email,
     );
 
@@ -70,9 +70,9 @@ export class AuthService {
     await this.usersService.updateUser(userToHandle, user);
   }
 
-  async logOut(session: ExpressSession): Promise<void> {
+  async logOut(session: ExpressSession, userFullName: string): Promise<void> {
     session.destroy(() => {
-      this._logger.log('User logged out');
+      this._logger.log(`User ${userFullName} logged out`);
       return;
     });
   }
