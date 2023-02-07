@@ -11,13 +11,14 @@ export class SessionSerializer extends PassportSerializer {
     super();
   }
   serializeUser(user: UserWithoutPassword, done: Function) {
-    this._logger.debug('Serializing User');
-    this._logger.debug({ user });
+    this._logger.log(`Serializing User: "${user.fullName}"`);
     done(null, user.email);
   }
   async deserializeUser(userEmail: string, done: Function) {
-    this._logger.debug('Deserializing User');
-    const user = await this.usersService.findOne(userEmail);
+    const user: UserWithoutPassword = await this.usersService.findOne(
+      userEmail,
+    );
+    this._logger.log(`Deserializing User: "${user.fullName}"`);
     done(null, user);
   }
 }

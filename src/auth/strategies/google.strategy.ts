@@ -7,7 +7,6 @@ import { Profile, Strategy, VerifyCallback } from 'passport-google-oauth20';
 import authConfig from 'src/config/auth.config';
 
 import { GoogleUser } from '../types/google-user.interface';
-import { AuthService } from '../auth.service';
 
 export class GoogleStrategy extends PassportStrategy(Strategy, 'google') {
   private logger = new Logger('GoogleStrategy');
@@ -29,17 +28,12 @@ export class GoogleStrategy extends PassportStrategy(Strategy, 'google') {
     profile: Profile,
     done: VerifyCallback,
   ) {
-    this.logger.debug({
-      accessToken,
-      refreshToken,
-      profile,
-    });
     const user: GoogleUser = {
       fullName: profile.displayName,
       email: profile.emails[0].value,
       photo: profile.photos[0].value,
     };
-    this.logger.debug({ user });
+    this.logger.log(`User logged in with Google: ${user.fullName}`);
     done(null, user);
   }
 }
