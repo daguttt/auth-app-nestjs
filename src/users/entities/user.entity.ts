@@ -19,11 +19,14 @@ export class UserEntity {
 
   @Column('varchar', {
     nullable: true,
+    select: false,
   })
   password: string;
 
-  @Column('text', {
+  @Column('varchar', {
     nullable: true,
   })
   photo: string;
 }
+
+export type UserEntityLike = Partial<UserEntity>;

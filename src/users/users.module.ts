@@ -1,10 +1,13 @@
 import { forwardRef, Module } from '@nestjs/common';
-import { UsersService } from './users.service';
-import { UsersController } from './users.controller';
 import { TypeOrmModule } from '@nestjs/typeorm';
-import { UserEntity } from './entities/user.entity';
+
 import { ErrorsModule } from 'src/errors/errors.module';
 import { AuthModule } from 'src/auth/auth.module';
+
+import { UserEntity } from './entities/user.entity';
+import { UsersService } from './users.service';
+import { UsersController } from './users.controller';
+import { ArePasswordsEqualPipe } from './pipes/are-passwords-equal/are-passwords-equal.pipe';
 
 @Module({
   imports: [
@@ -12,7 +15,7 @@ import { AuthModule } from 'src/auth/auth.module';
     ErrorsModule,
     forwardRef(() => AuthModule),
   ],
-  providers: [UsersService],
+  providers: [UsersService, ArePasswordsEqualPipe],
   controllers: [UsersController],
   exports: [UsersService],
 })

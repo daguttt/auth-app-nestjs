@@ -4,16 +4,15 @@ import { PassportStrategy } from '@nestjs/passport';
 
 import { Profile, Strategy, VerifyCallback } from 'passport-google-oauth20';
 
-import authConfig from 'src/config/auth/auth.config';
-import { AuthService } from '../auth.service';
-import { CreateUserDto } from 'src/users/dto/create-user.dto';
+import authConfig from 'src/config/auth.config';
+
+import { GoogleUser } from '../types/google-user.interface';
 
 export class GoogleStrategy extends PassportStrategy(Strategy, 'google') {
   private logger = new Logger('GoogleStrategy');
   constructor(
     @Inject(authConfig.KEY)
     config: ConfigType<typeof authConfig>,
-    private readonly authService: AuthService,
   ) {
     super({
       clientID: config.google.clientID,
@@ -29,15 +28,12 @@ export class GoogleStrategy extends PassportStrategy(Strategy, 'google') {
     profile: Profile,
     done: VerifyCallback,
   ) {
-    this.logger.debug({
-      accessToken,
-      refreshToken,
-      profile,
-    });
-    const user: CreateUserDto = {
+    const user: GoogleUser = {
       fullName: profile.displayName,
       email: profile.emails[0].value,
+      photo: profile.photos[0].value,
     };
+    this.logger.log(`User logged in with Google: ${user.fullName}`);
     done(null, user);
   }
 }
