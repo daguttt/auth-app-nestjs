@@ -4,11 +4,7 @@
 
 REST API built with [NestJS](https://docs.nestjs.com/). It provides a boilerplate for custom Node.js authentication using [Passport.js](https://www.passportjs.org/). It has **Google** and **Local** strategies implemented. Main version is based on **server sessions with cookies** using **PostgreSQL** as a [session store](https://github.com/voxpelli/node-connect-pg-simple)
 
-{% note %}
-
 **Note:** This Code base is meant to be used as a **_template_** for other projects.
-
-{% endnote %}
 
 ## Live Example
 
