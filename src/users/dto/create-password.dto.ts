@@ -1,11 +1,12 @@
 import { IsString, Matches } from 'class-validator';
+import { passwordFormat } from '../constants/password-format';
 
 export class CreatePasswordDto {
   @IsString()
-  @Matches(/^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[a-zA-Z]).{8,}$/gm)
+  @Matches(passwordFormat)
   newPassword: string;
 
   @IsString()
-  @Matches(/^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[a-zA-Z]).{8,}$/gm)
+  @Matches(passwordFormat)
   confirmPassword: string;
 }
